@@ -1,0 +1,59 @@
+{% for labx in labs %}
+
+{% with labrc=labreqs.objects.get(lab=labx) %}
+{% if labrc %}
+	{% if labrc.approval_status in (0,1) %}
+	{% else %}
+		<div class="form-check">
+		  <input class="form-check-input" type="checkbox" value="{{lab.user.username}}" id="{{lab.user.username}}" name="{{lab.user.username}}" >
+		  <label class="form-check-label" for="defaultCheck2">
+		    {{labx.user.username}}
+		  </label>
+		</div>
+	{% endif %}
+{% else %}
+	<div class="form-check">
+	  <input class="form-check-input" type="checkbox" value="{{lab.user.username}}" id="{{lab.user.username}}" name="{{lab.user.username}}" >
+	  <label class="form-check-label" for="defaultCheck2">
+	    {{labx.user.username}}
+	  </label>
+	</div>
+{% endif %}
+{% endwith %}
+
+{% endfor %}
+
+
+	<script type="text/javascript">
+				function LibChecked(){
+					var items=document.getElementsByName('Library/CCC');
+					var selectedItems=[];
+					for(var i=0; i<items.length; i++){
+						if(items[i].type=='checkbox' && items[i].checked==true)
+							selectedItems+=items[i].value+"\n";
+					}
+					console.log(selectedItems);
+				}
+				function LabChecked(){
+					var items=document.getElementsByName('LAB');
+					var selectedItems=[];
+					for(var i=0; i<items.length; i++){
+						if(items[i].type=='checkbox' && items[i].checked==true)
+							selectedItems.push(items[i].value);
+					}
+					console.log(selectedItems);
+				}
+				function hostelchosen(){
+					var e = document.getElementById("HOSTEL");
+					var strUser = e.options[e.selectedIndex].value;
+					console.log(strUser);
+				}
+				function btpchosen(){
+					var e = document.getElementById("BTP");
+					var strUser = e.options[e.selectedIndex].value;
+					console.log(strUser);
+				}
+	</script>
+	<script>
+
+</script>

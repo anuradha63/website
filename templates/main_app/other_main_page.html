@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>
+
+  </head>
+  <body>
+
+
+
+
+    <nav style="background-color:#05386B;" class="navbar navbar-default navbar-fixed-top">
+
+      <div class="container">
+        <ul class="nav navbar-nav">
+
+          <li><a style="color:white" onMouseOver="this.style.color='#4CBB17'" onMouseOut="this.style.color='white'" class="navbar-link" href="{% url 'logout' %}">Log Out</a></li>
+
+
+        </ul>
+      </div>
+
+    </nav>
+
+    <br><br><br><br>
+
+    {% if messages %}
+    <div style="height:105px" class="container">
+      <div style="background-color:#FC4445; height:105px;  padding: 5px;" class="jumbotron">
+        <h4 style="color:white">{% include 'main_app/messages.html' %}</h4>
+      </div>
+
+    </div>
+    {% endif %}
+
+
+    <div class="container text-center">
+      <h3>Hello {{request.user.username}}</h3>
+    </div>
+
+
+
+
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+            <form action="{% url 'otherIndex' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+                            UPLOAD FILE HERE...
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                        </div>
+                    </div>
+                     <button type="submit" name="AcceptCSV" class="btn btn-primary"> Upload and Accept </button>
+                     <button type="submit" name="RejectCSV" class="btn btn-danger"> Upload and Reject </button>
+            </form>
+
+            <div class="text-right">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mymodal">Format for CSV file</button>
+           </div>
+
+            <div class="modal fade" id="mymodal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times</button>
+                    <h4 class="modal-title">CSV File Format for Accepting/Rejecting</h4>
+                  </div>
+                  <div class="modal-body">
+
+                    <ul>
+                      <li>File should be of CSV type.</li>
+                      <li>Please don't format the cells.</li>
+                      <li>Every row should have two entries:</li>
+                      <ul>
+                        <li>First being the roll number.</li>
+                        <li>Second being the remark.</li>
+                      </ul>
+                    </ul>
+
+                      <img style="max-width:100%" src="{% static  'csvFileFormats/otherRequests.png' %}" alt="lab format">
+
+
+                  </div>
+
+
+
+                </div>
+
+              </div>
+
+            </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% if p %}
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for roll no" title="Type in roll number">
+      	<br><br>
+
+        <form action="{% url 'otherIndex' %}" method="post">
+          {% csrf_token %}
+
+
+
+        <table class="table table-hover" style="width:100%", id="myTable">
+        <tr>
+          <th><input id="selectAll" value="YES" type="checkbox" onClick="toggle(this)"></th>
+          <th>Roll Number</th>
+          <th>Student</th>
+          <th>Date Sent</th>
+          <th>Approval Status</th>
+          <th>Remark</th>
+        </tr>
+
+        {% for req in requests %}
+        <tr>
+          <td><input class="form-check-input" type="checkbox" value="YES" id="{{ req.student.rollnumber }}" name="{{ req.student.rollnumber }}" onClick="toggle2(this)" ></td>
+          <td>{{ req.student.rollnumber }}</td>
+          <td>{{ req.student.user.username }}</td>
+          <td>{{ req.date_sent }}</td>
+    {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+          <td><input class="form-check-input" type="text" placeholder="Remark..." id="{{ req.student.rollnumber }}" name="{{ req.student.rollnumber }}" ></td>
+        </tr>
+
+        {% endfor %}
+
+
+
+      </table>
+
+      <br>
+
+
+        <button type="submit" name="Accept" class="btn btn-primary">Accept</button>
+        <button type="submit" name="Reject" class="btn btn-danger">Reject</button>
+
+
+    </form>
+
+      </div>
+    </div>
+    {% else %}
+    <div class="container ">
+      <br><h3>No New Approvals...</h3>
+    </div>
+    {% endif %}
+    <script>
+  function myFunction()
+  {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value;
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td)
+    {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function toggle(source) {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value;
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td)
+    {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.indexOf(filter) > -1) {
+        tr[i].getElementsByTagName("td")[0].getElementsByClassName("form-check-input")[0].checked = source.checked;
+
+      } else {
+        tr[i].getElementsByTagName("td")[0].getElementsByClassName("form-check-input")[0].checked = false;
+      }
+    }
+}
+}
+function toggle2(source){
+
+  document.getElementById("selectAll").checked=false;
+
+}
+
+
+</script>
+
+  </body>
+</html>
