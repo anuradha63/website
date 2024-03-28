@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+{% extends 'main_app/base.html' %}
+{% load cus_tags %}
+
+
+{% block js %}
+
+{% endblock %}
+
+
+
+{% block body_block %}
+
+
+{%  if k %}
+
+<div class="container">
+  <h3>Nothing Left To Apply! </h3>
+  <a href="{% url 'studentIndex'  %}"><button type="submit" class="btn btn-primary"> BACK </button></a>
+</div>
+
+{% else %}
+<div class="container">
+  <h3>Select the options to apply...</h3>
+  <br>
+</div>
+
+<form method="post" action="{% url 'studentIndex' %}">
+{% csrf_token %}
+
+
+
+
+{% if l == 0 %}
+<div class="form-check">
+<br>
+  <input class="form-check-input" type="checkbox" value="Library/CCC" id="Library/CCC" name="Library/CCC">
+  <label class="form-check-label" for="Library/CCC" >
+    Library/CCC
+  </label>
+</div>
+{% endif %}
+{% if g == 0 %}
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="Gymkhana" id="Gymkhana" name="Gymkhana">
+  <label class="form-check-label" for="Library/CCC" >
+    Gymkhana
+  </label>
+</div>
+<br>
+<br>
+{% endif %}
+
+{% if op == 1 %}
+<h4>LABS</h4><br>
+{% for lab in labs %}
+	{% if arr|index:forloop.counter0 == 0 %}
+		<div class="form-check">
+		  <input class="form-check-input" type="checkbox" value="{{lab.user.username}}" id="{{lab.user.username}}" name="{{lab.user.username}}" >
+		  <label class="form-check-label" for="defaultCheck2">
+		    {{lab.user.username}}
+		  </label>
+		</div>
+	{% endif %}
+{% endfor %}
+<br>
+<br>
+{% endif %}
+
+
+{% if h == 0 %}
+<div class="form-group">
+<label for="exampleFormControlSelect1">HOSTEL</label><br>
+<select class="form-control" id="HOSTEL" name="HOSTEL">
+    <option disabled selected>Choose...</option>
+    <option value="LOHIT">LOHIT</option>
+    <option value="SIANG">SIANG</option>
+    <option value="DIHING">DIHING</option>
+    <option value="MANAS">MANAS</option>
+    <option value="KAPILI">KAPILI</option>
+    <option value="UMIAM">UMIAM</option>
+    <option value="BRAHMAPUTRA">BRAHMAPUTRA</option>
+    <option value="BARAK">BARAK</option>
+    <option value="KAMENG">KAMENG</option>
+    <option value="MSH">MSH</option>
+    <option value="DHANSIRI">DHANSIRI</option>
+    <option value="SUBANSIRI">SUBANSIRI</option>
+    <option value="DIBANG">DIBANG</option>
+    <option value="DISANG">DISANG</option>
+</select>
+</div>
+<br>
+<br>
+{% endif %}
+
+
+{% if b == 0 %}
+<div class="form-group">
+<label for="exampleFormControlSelect2">BTP</label><br>
+
+<select class="form-control" id="BTP" name="BTP">
+    <option disabled selected>Choose...</option>
+    {% for btp in btps %}
+    	<option value="{{ btp.user.username }}">{{btp.user.username}}</option>
+    {% endfor %}
+</select>
+</div>
+<br>
+<br>
+{% endif %}
+
+
+
+<button type="submit" class="btn btn-primary">APPLY</button>
+
+
+
+</form>
+
+{% endif %}
+
+{% endblock %}

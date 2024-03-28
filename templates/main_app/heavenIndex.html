@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>
+
+  </head>
+  <body>
+
+    <nav style="background-color:#05386B;" class="navbar navbar-default navbar-fixed-top">
+
+      <div class="container">
+        <ul class="nav navbar-nav">
+
+          <li><a style="color:white" onMouseOver="this.style.color='#4CBB17'" onMouseOut="this.style.color='white'" class="navbar-link" href="{% url 'logout' %}">Log Out</a></li>
+
+        </ul>
+      </div>
+
+    </nav>
+
+    <br><br><br><br>
+
+    <div class="container text-center">
+      <h3>Hello {{request.user.username}}</h3>
+    </div>
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+    <form action="" method='post'>
+      {% csrf_token %}
+      <button class="btn btn-danger" type="submit">SEND REMINDER EMAILS</button>
+      
+    </form>
+  </div>
+</div>
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for roll no" title="Type in roll number">
+        <br><br>
+
+
+
+        <table class="table table-hover" style="width:100%" id="myTable">
+        <tr>
+
+          <th>Roll Number</th>
+          <th>Lab Clearance</th>
+          <th>BTP Clearance</th>
+          <th>Other Clearance</th>
+          <!-- <th>Date Sent</th>
+          <th>Approval Status</th>
+          <th>Remark</th> -->
+        </tr>
+
+        {% for key in dict %}
+
+        <tr>
+
+          <td>{{ key.name }}</td>
+
+
+          <!-- {% if key.a == 1 %}
+          <td>Not Cleared</td>
+          {% else %}
+          <td>Cleared</td>
+          {% endif %} -->
+ {% if key.a == 1 %}
+    <td style="font-weight: 600;color:#C21807;">Not Cleared <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+   {% else %}
+    <td style="font-weight: 600;color:#4CBB17;">Cleared         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+
+{% if key.b == 1 %}
+    <td style="font-weight: 600;color:#C21807;">Not Cleared <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+   {% else %}
+    <td style="font-weight: 600;color:#4CBB17;">Cleared         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+    {% if key.c == 1 %}
+    <td style="font-weight: 600;color:#C21807;">Not Cleared <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+   {% else %}
+    <td style="font-weight: 600;color:#4CBB17;">Cleared         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+<!--           {% if key.b == 1 %}
+          <td>Not Cleared</td>
+          {% else %}
+          <td>Cleared</td>
+          {% endif %}
+
+
+          {% if key.c == 1 %}
+          <td>Not Cleared</td>
+          {% else %}
+          <td>Cleared</td>
+          {% endif %} -->
+          <!-- <td>{{ req.student.user.username }}</td>
+          <td>{{ req.date_sent }}</td>
+          {% if req.approval_status == 0 %}
+          <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="chrome-extension://fnpbeacklnhmkkilekogeiekaglbmmka/content/images/sb_unknownAnnotation.svg" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+          {% elif req.approval_status == 1 %}
+          <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="chrome-extension://fnpbeacklnhmkkilekogeiekaglbmmka/content/images/sb_unknownAnnotation.svg" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+          {% elif req.approval_status == 2 %}
+          <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="chrome-extension://fnpbeacklnhmkkilekogeiekaglbmmka/content/images/sb_safeAnnotation.svg" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+          {% else %}
+          <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="chrome-extension://fnpbeacklnhmkkilekogeiekaglbmmka/content/images/sb_unsafeAnnotation.svg" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+          {% endif %}
+          <td><input class="form-check-input" type="text" placeholder="Remark..." id="{{ req.student.rollnumber }}" name="{{ req.student.rollnumber }}" ></td> -->
+        </tr>
+
+        {% endfor %}
+
+      </table>
+
+      <br>
+
+
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function myFunction()
+      {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value;
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td)
+        {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+
+    </script>
+
+
+  </body>
+</html>

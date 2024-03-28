@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style type="text/css">
+      
+    body,html {
+  height: 100%;
+}
+
+.jumbotron {
+ background: rgba(255,255,255, 0.5);
+}
+
+
+dd label input {
+   padding-right:10000px !important;
+}
+
+    </style>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- ===============================================================================================-->
+
+  <!--===============================================================================================-->
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' }">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' }">
+  <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <!-- =============================================================================================== -->
+
+
+  </head>
+  <body>
+
+    <div class="limiter">
+  		<div class="container-login100" style="background-image:url({% static 'images/bg-01.jpg' %})">
+    <!-- <div class="container h-100" style="width:40%"> -->
+      <div class="row align-items-center h-100">
+       <div class="col-12 mx-auto">
+      <div class="jumbotron">
+        <div class="jumbotron-cont">
+
+        {% if registered %}
+           {% csrf_token %}
+          <h1>Thank You For Registering</h1>
+        {% else  %}
+        {% csrf_token %}
+          <span class="text-center"><span style="font-size:40px; color:black" class="login100-form-title p-b-10">
+  					Register Here
+  				</span><span class="login100-form-title p-b-10" style="color:black">
+  					Fill out the form.
+  				</span></span>
+
+          {% if registerFlag == 0 %}
+          <form action="{% url 'main_app:registerStudent' %}" method="post">
+          {% elif registerFlag == 1 %}
+          <form action="{% url 'main_app:registerLab' %}" method="post">
+          {% elif registerFlag == 2 %}
+          <form action="{% url 'main_app:registerOther' %}" method="post">
+          {% elif registerFlag == 3 %}
+          <form action="{% url 'main_app:registerBTP' %}" method="post">
+          {% else %}
+          <form action="{% url 'main_app:registerHOD' %}" method="post">
+          {% endif %}
+            {% csrf_token %}
+
+            {{ user_form|crispy }}
+            {{ info_form|crispy }}
+            <input type="submit" class="btn btn-primary" name="" value="Register">
+
+          </form>
+        {% endif %}
+
+      </div>
+          </div>
+  </div>
+      <!-- </div> -->
+
+    </div>
+  </div>
+
+</div>
+
+  </body>
+</html>

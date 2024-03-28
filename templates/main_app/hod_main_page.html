@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>
+
+
+  </head>
+  <body>
+
+
+
+    <nav style="background-color:#05386B;" class="navbar navbar-default navbar-fixed-top">
+
+      <div class="container">
+        <ul class="nav navbar-nav">
+
+          <li><a style="color:white" onMouseOver="this.style.color='#4CBB17'" onMouseOut="this.style.color='white'" class="navbar-link" href="{% url 'logout' %}">Log Out</a></li>
+          <li><a style="color:white" onMouseOver="this.style.color='#4CBB17'" onMouseOut="this.style.color='white'" class="navbar-link" href="{% url 'hodIndex' %}">Student Requests</a></li>
+          <li><a style="color:white" onMouseOver="this.style.color='#4CBB17'" onMouseOut="this.style.color='white'" class="navbar-link" href="{% url 'labAccountRequests' %}">Lab Account Requests</a></li>
+          <li><a style="color:white" onMouseOver="this.style.color='#4CBB17'" onMouseOut="this.style.color='white'" class="navbar-link" href="{% url 'btpAccountRequests' %}">BTP Account Requests</a></li>
+
+
+        </ul>
+      </div>
+
+    </nav>
+
+    <br><br><br><br>
+
+    {% if messages %}
+    <div style="height:105px" class="container">
+      <div style="background-color:#FC4445; height:105px;  padding: 5px;" class="jumbotron">
+        <h4 style="color:white">{% include 'main_app/messages.html' %}</h4>
+      </div>
+
+    </div>
+    {% endif %}
+
+
+    <div class="container text-center">
+      <h3>Hello {{request.user.username}}</h3>
+    </div>
+
+
+
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+            <form action="{% url 'hodIndex' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+                            UPLOAD FILE FOR LAB DUES HERE...
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                        </div>
+                    </div>
+                     <button type="submit" name="AcceptCSVLAB" class="btn btn-primary"> Upload and Accept </button>
+                     <button type="submit" name="RejectCSVLAB" class="btn btn-danger"> Upload and Reject </button>
+
+
+            </form>
+            <div class="text-right">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mymodal">Format for CSV file</button>
+           </div>
+
+           <div class="modal fade" id="mymodal">
+             <div class="modal-dialog">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <button class="close" data-dismiss="modal">&times</button>
+                   <h4 class="modal-title">CSV File Format For Lab Requests</h4>
+                 </div>
+                 <div class="modal-body">
+
+                   <ul>
+                     <li>File should be of CSV type.</li>
+                     <li>Please don't format the cells.</li>
+                     <li>Every row should have three entries:</li>
+                     <ul>
+                       <li>First being the roll number.</li>
+                       <li>Second being the lab's username for which request is to be accepted/rejected.</li>
+                       <li>Third being the remark.</li>
+                     </ul>
+                   </ul>
+
+                     <img style="max-width:100%" src="{% static  'csvFileFormats/hodLabFormat.png' %}" alt="btp lab format">
+
+
+                 </div>
+
+
+
+               </div>
+
+             </div>
+
+           </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+            <form action="{% url 'hodIndex' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+                            UPLOAD FILE FOR BTP DUES HERE...
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                        </div>
+                    </div>
+                     <button type="submit" name="AcceptCSVBTP" class="btn btn-primary"> Upload and Accept </button>
+                     <button type="submit" name="RejectCSVBTP" class="btn btn-danger"> Upload and Reject </button>
+
+
+            </form>
+
+            <div class="text-right">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mymodal1">Format for CSV file</button>
+           </div>
+
+           <div class="modal fade" id="mymodal1">
+             <div class="modal-dialog">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <button class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">CSV File Format For BTP Requests</h4>
+                 </div>
+                 <div class="modal-body">
+
+                   <ul>
+                     <li>File should be of CSV type.</li>
+                     <li>Please don't format the cells.</li>
+                     <li>Every row should have three entries:</li>
+                     <ul>
+                       <li>First being the roll number.</li>
+                       <li>Second being the BTP Professor's username for who request is to be accepted/rejected.</li>
+                       <li>Third being the remark.</li>
+                     </ul>
+                   </ul>
+
+                     <img style="max-width:100%" src="{% static  'csvFileFormats/hodBTPFormat.png' %}" alt="btp lab format">
+
+
+                 </div>
+
+               </div>
+
+             </div>
+
+           </div>
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+        <p>{% if requests.count > 0 %}</p>
+        <h3>Lab Requests</h3>
+
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for roll no" title="Type in roll number">
+        <br><br>
+
+
+
+        <form action="{% url 'hodIndex' %}" method="post">
+          {% csrf_token %}
+
+
+            <table class="table table-hover" style="width:100%", id="myTable">
+            <tr>
+              <th><input id="selectAll2" value="YES" type="checkbox" onClick="toggle(this)"></th>
+              <th>Roll Number</th>
+              <th>Student</th>
+              <th>Sent To</th>
+              <th>Date Sent</th>
+              <th>Approval Status</th>
+              <th>Remark</th>
+              <th></th>
+            </tr>
+
+            {% for req in requests %}
+
+            <tr>
+              <td><input class="form-check-input 2" type="checkbox" value="YES" id="{{ req.student.rollnumber }}" name="{{ req.student.rollnumber }}{{ req.lab.user.username }}" onClick="toggle2(this)"></td>
+              <td>{{ req.student.rollnumber }}</td>
+              <td>{{ req.student.user.username }}</td>
+              <td>{{ req.lab.user.username }}</td>
+              <td>{{ req.date_sent }}</td>
+              
+   {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+              <td><input class="form-check-input" type="text" placeholder="Remark..." id="{{ req.student.rollnumber }}{{ req.lab.user.username }}" name="{{ req.student.rollnumber }}{{ req.lab.user.username }}" ></td>
+            </tr>
+
+            {% endfor %}
+
+
+
+
+            </table>
+
+            <br>
+
+            <button type="submit" name="AcceptLAB" class="btn btn-primary">Accept</button>
+            <button type="submit" name="RejectLAB" class="btn btn-danger">Reject</button>
+
+        </form>
+        {% else %}
+        <h2>NO LAB REQUESTS</h2>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div style="background-color:#b0e0e6" class="jumbotron">
+        <p>{% if requests2.count > 0 %}</p>
+        <h3>BTP Requests</h3>
+
+        <input type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Search for roll no" title="Type in roll number">
+        <br><br>
+
+
+
+        <form action="{% url 'hodIndex' %}" method="post">
+          {% csrf_token %}
+
+
+            <table class="table table-hover" style="width:100%", id="myTable1">
+            <tr>
+              <th><input id="selectAll1" value="YES" type="checkbox" onClick="toggle3(this)"></th>
+              <th>Roll Number</th>
+              <th>Student</th>
+              <th>Sent To</th>
+              <th>Date Sent</th>
+              <th>Approval Status</th>
+              <th>Remark</th>
+              <th></th>
+            </tr>
+
+
+
+            {% for req in requests2 %}
+
+            <tr>
+              {% if req.btp %}
+              <td><input class="form-check-input 1" type="checkbox" value="YES" id="{{ req.student.rollnumber }}{{ req.btp.user.username }}" name="{{ req.student.rollnumber }}{{ req.btp.user.username }}" onClick="toggle4(this)"></td>
+              {% else %}
+              <td><input class="form-check-input 1" type="checkbox" value="YES" id="{{ req.student.rollnumber }}{{ req.hod.user.username }}" name="{{ req.student.rollnumber }}{{ req.hod.user.username }}" onClick="toggle4(this)"></td>
+              {% endif %}
+              <td>{{ req.student.rollnumber }}</td>
+              <td>{{ req.student.user.username }}</td>
+              {% if req.btp %}
+              <td>{{ req.btp.user.username }}</td>
+              {% else %}
+              <td>{{ req.hod.user.username }}</td>
+              {% endif %}
+              <td>{{ req.date_sent }}</td>
+    {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+              {% if req.btp %}
+              <td><input class="form-check-input" type="text" placeholder="Remark..." id="{{ req.student.rollnumber }}{{ req.btp.user.username }}" name="{{ req.student.rollnumber }}{{ req.btp.user.username }}" ></td>
+              {% else %}
+              <td><input class="form-check-input" type="text" placeholder="Remark..." id="{{ req.student.rollnumber }}{{ req.hod.user.username }}" name="{{ req.student.rollnumber }}{{ req.hod.user.username }}" ></td>
+              {% endif %}
+            </tr>
+
+            {% endfor %}
+
+            </table>
+
+            <br>
+
+            <button type="submit" name="AcceptBTP" class="btn btn-primary">Accept</button>
+            <button type="submit" name="RejectBTP" class="btn btn-danger">Reject</button>
+
+        </form>
+        {% else %}
+        <h2>NO BTP REQUESTS</h2>
+        {% endif %}
+      </div>
+    </div>
+
+    <script>
+    function myFunction()
+    {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value;
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td)
+      {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  function myFunction1()
+  {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput1");
+    filter = input.value;
+    table = document.getElementById("myTable1");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td)
+    {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+  }
+
+  function toggle(source) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value;
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td)
+    {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.indexOf(filter) > -1) {
+        tr[i].getElementsByTagName("td")[0].getElementsByClassName("2")[0].checked = source.checked;
+      } else {
+        tr[i].getElementsByTagName("td")[0].getElementsByClassName("2")[0].checked = false;
+      }
+    }
+  }
+  }
+
+  function toggle2(source){
+
+    document.getElementById("selectAll2").checked=false;
+
+  }
+
+  function toggle3(source) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput1");
+    filter = input.value;
+    table = document.getElementById("myTable1");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td)
+    {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.indexOf(filter) > -1) {
+        tr[i].getElementsByTagName("td")[0].getElementsByClassName("1")[0].checked = source.checked;
+      } else {
+        tr[i].getElementsByTagName("td")[0].getElementsByClassName("1")[0].checked = false;
+      }
+    }
+  }
+  }
+
+  function toggle4(source){
+
+    document.getElementById("selectAll1").checked=false;
+
+  }
+
+</script>
+
+
+  </body>
+</html>

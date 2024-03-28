@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block body_block %}
+
+
+{% if labRequests.count > 0 %}
+<div style="background-color:#b0e0e6" class="jumbotron">
+
+  <h3>Lab Requests</h3>
+
+  <table class="table table-hover" style="width:100%">
+  <tr>
+    <th>Lab</th>
+    <th>Approval Status</th>
+    <th>Remark</th>
+
+  </tr>
+
+  {% for req in labRequests %}
+
+  <tr>
+    <td>{{ req.lab.user.username }}</td>
+
+   {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+
+    <td>{{ req.remark }}</td>
+  </tr>
+
+  {% endfor %}
+
+  </table>
+
+</div>
+{% else %}
+<br><h3>No Lab Requests...</h3>
+<br><br>
+{% endif %}
+
+{% endblock %}

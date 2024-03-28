@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+
+{% block body_block %}
+<div class="container text-center">
+  <h3>Hello {{ user.name }}</h3>
+</div>
+
+
+
+<style>
+
+.example_a {
+color: #fff !important;
+text-transform: uppercase;
+text-decoration: none;
+background: #ed3330;
+padding: 20px;
+border-radius: 5px;
+display: inline-block;
+border: none;
+transition: all 0.4s ease 0s;
+}
+
+.example_a:hover {
+background: #434343;
+letter-spacing: 1px;
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+}
+</style>
+
+
+<div class="button_cont" align="left"><a class="example_a" href="{% url 'main_app:StudentApply' %}">APPLY</a></div><br><br>
+
+{% if labRequests.count > 0 %}
+<div style="background-color:#b0e0e6" class="jumbotron">
+
+  <h3>Lab Requests</h3>
+
+  <table class="table table-hover" style="width:100%">
+  <tr>
+    <th>LAB</th>
+    <th>DATE SENT</th>
+    <th>APPROVAL STATUS</th>
+    <th>REMARK</th>
+
+  </tr>
+
+  {% for req in labRequests %}
+
+  <tr>
+    <td>{{ req.lab.user.username }}</td>
+
+    <td>{{ req.date_sent }}</td>
+
+    {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+    <td>{{ req.remark }}</td>
+  </tr>
+
+  {% endfor %}
+
+  </table>
+
+</div>
+{% else %}
+<br><h3>No Lab Requests...</h3>
+<br><br>
+{% endif %}
+
+{% if btpRequests.count > 0 %}
+<div style="background-color:#b0e0e6" class="jumbotron">
+
+  <h3>BTP Requests</h3>
+
+  <table class="table table-hover" style="width:100%">
+  <tr>
+    <th>BTP PROFESSOR</th>
+    <th>DATE SENT</th>
+    <th>APPROVAL STATUS</th>
+    <th>REMARK</th>
+  </tr>
+
+  {% for req in btpRequests %}
+
+  <tr>
+    {% if req.btp %}
+    <td>{{ req.btp.user.username }}</td>
+    {% else %}
+    <td>{{ req.hod.user.username }}</td>
+    {% endif %}
+    <td>{{ req.date_sent }}</td>
+
+    {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+
+    <td>{{ req.remark }}</td>
+  </tr>
+
+  {% endfor %}
+
+</table>
+
+</div>
+{% else %}
+<br>
+<h3>No BTP Requests...</h3>
+<br><br>
+{% endif %}
+
+{% if otherRequests.count > 0 %}
+<div style="background-color:#b0e0e6" class="jumbotron">
+
+  <h3>Other Requests</h3>
+
+  <table class="table table-hover" style="width:100%">
+  <tr>
+    <th>DEPARTMENT</th>
+    <th>DATE SENT</th>
+     <th>APPROVAL STATUS</th>
+     <th>REMARK</th>
+  </tr>
+
+  {% for req in otherRequests %}
+
+  <tr>
+
+    <td>{{ req.other.user.username }}</td>
+
+
+    <td>{{ req.date_sent }}</td>
+
+   {% if req.approval_status == 0 %}
+    <td  style="font-weight: 500;color:gray;">Waiting                <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 1 %}
+    <td style="font-weight: 500;color:gray;">Waiting for HOD approval    <img class="l sb-l" src="{% static 'images/icons/sb_unknownAnnotation.svg' %}" id="sbresult_7" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% elif req.approval_status == 2 %}
+    <td style="font-weight: 600;color:#4CBB17;">Approved         <img class="l sb-l" src="{% static 'images/icons/sb_safeAnnotation.svg' %}" id="sbresult_0" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% else %}
+    <td style="font-weight: 600;color:#C21807;">Rejected         <img class="l sb-l" src="{% static 'images/icons/sb_unsafeAnnotation.svg' %}" id="sbresult_9" style="position: relative; top: 0px; cursor: pointer; width: 16px; height: 16px;"></td>
+    {% endif %}
+
+
+    <td>{{ req.remark }}</td>
+  </tr>
+
+  {% endfor %}
+
+
+</table>
+
+</div>
+{% else %}
+<br><h3>No Other Requests...</h3>
+<br><br>
+{% endif %}
+
+
+{% endblock %}
